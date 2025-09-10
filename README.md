@@ -58,6 +58,13 @@ Rodar um cluster Kubernetes localmente consome uma quantidade significativa de r
  - **Armazenamento (Disco):** 30 GB de espaço livre para acomodar as ferramentas, as imagens dos contêineres e os dados do cluster.
 
 
+# Etapa 1: Preparação do repositório Github
+O princípio fundamental do GitOps é ter o Git como a única fonte da verdade. Por isso, o primeiro passo prático deste projeto é preparar um repositório que conterá a configuração declarativa que será implantada na aplicação. Importante que nessa primeira etapa você já tenha uma conta no Github.
+
+**1.1. Fork do repositório da aplicação**
+Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", primeiros vamos fazer um "fork" (uma cópia) do repositório oficial do Google Cloud Platform, o mesmo contêm  a aplicação de microserviços. O link oficial do projeto é esse https://github.com/GoogleCloudPlatform/microservices-demo.
+
+
 
 
 
@@ -66,3 +73,4 @@ Rodar um cluster Kubernetes localmente consome uma quantidade significativa de r
    
 
  
+
