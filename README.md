@@ -59,10 +59,10 @@ Rodar um cluster Kubernetes localmente consome uma quantidade significativa de r
 
 
 # Etapa 1: Preparação do repositório Github
-O princípio fundamental do GitOps é ter o Git como a única fonte da verdade. Por isso, o primeiro passo prático deste projeto é preparar um repositório que conterá a configuração declarativa que será implantada na aplicação. Importante que nessa primeira etapa você já tenha uma conta no Github.
+O princípio fundamental do GitOps é ter o Git como a única fonte da verdade. Por isso, o primeiro passo prático deste projeto é preparar um repositório que conterá a configuração declarativa que será implantada na aplicação.  É importante que você já possua uma conta no GitHub para seguir esta etapa.
 
 **1.1. Fork do repositório da aplicação**
-Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", primeiros vamos fazer um "fork" (uma cópia) do repositório oficial do Google Cloud Platform, o mesmo contêm  a aplicação de microserviços. O link oficial do projeto é esse https://github.com/GoogleCloudPlatform/microservices-demo.
+Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", primeiro vamos fazer um "fork" (uma cópia) do repositório oficial do Google Cloud Platform para sua conta. Este repositório contêm a aplicação de microserviços. O link oficial do projeto é esse https://github.com/GoogleCloudPlatform/microservices-demo.
 
 
 
@@ -73,4 +73,5 @@ Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", p
    
 
  
+
 
