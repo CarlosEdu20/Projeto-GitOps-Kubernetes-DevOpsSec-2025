@@ -26,20 +26,23 @@ Ambiente Windows:
   - WSL2
   - Chocolatey
 
-## Pré-requisitos:
+## Pré-requisitos
 Antes de começar a seguir as etapas, garanta que você possua todas essas ferramentas instaladas.
 
 **Para todos os sistemas:**
-- **Git**: Essencial para o vesionamento de código.
-- **Conta no GitHub:** Necessária para criar um repositório público para os manifestos da aplicação.
-- **Docker:** A plataforma de contêineres deve estar funcionando localmente. No Windows, o Rancher Desktop gerenciará isso; no Linux, pode ser necessário instalá-lo separadamente.
-- **Kubectl:** A ferramenta de linha de comando para interagir com o Kubernetes. 
-- **ArgoCD:** O argoCD deverá ser instalado no cluster.
-- **k3d:** Uma ferramenta leve para criar clusters k3s (Kubernetes) locais. Siga o guia de instalação oficial.
+- **Git** ([Instalação](https://git-scm.com/downloads)): Essencial para o versionamento de código.  
+- **Conta no GitHub** ([Criar conta](https://github.com/)): Necessária para criar um repositório público para os manifestos da aplicação.  
+- **Docker** ([Instalação](https://docs.docker.com/get-docker/)): A plataforma de contêineres deve estar funcionando localmente.  
+  - No Windows, o Rancher Desktop gerenciará isso.  
+  - No Linux, pode ser necessário instalá-lo separadamente.  
+- **Kubectl** ([Instalação](https://kubernetes.io/docs/tasks/tools/)): A ferramenta de linha de comando para interagir com o Kubernetes.  
+- **ArgoCD** ([Instalação](https://argo-cd.readthedocs.io/en/stable/getting_started/)): O ArgoCD deverá ser instalado no cluster.  
+- **k3d** ([Instalação](https://k3d.io/)): Uma ferramenta leve para criar clusters k3s (Kubernetes) locais.  
 
-**Para o ambiente windows:**
-- **Rancher Desktop:** Instale o Rancher Desktop, o mesmo fornece um ambiente Kubernetes integrado via WSL2. Certifique-se de que o Kubernetes esteja habilitado nas configurações.
-- **Chocolatey (Opcional, mas recomendado):** Um gerenciador de pacotes para instalar facilmente ferramentas de linha de comando.
+**Para o ambiente Windows:**
+- **Rancher Desktop** ([Instalação](https://rancherdesktop.io/)): Fornece um ambiente Kubernetes integrado via WSL2. Certifique-se de que o Kubernetes esteja habilitado nas configurações.  
+- **Chocolatey (Opcional, mas recomendado)** ([Instalação](https://chocolatey.org/install)): Um gerenciador de pacotes para instalar facilmente ferramentas de linha de comando.  
+
 
 **Requisitos de hardware:**
 Rodar um cluster Kubernetes localmente consome uma quantidade significativa de recursos computacionais. Esta recomendação visa garantir uma experiência fluida durante o projeto.
@@ -73,5 +76,6 @@ Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", p
    
 
  
+
 
 
