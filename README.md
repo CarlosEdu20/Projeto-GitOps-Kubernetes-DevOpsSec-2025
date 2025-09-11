@@ -5,9 +5,7 @@ No cenário atual da programação, o desenvolvimento moderno de aplicações ex
 
 Aprender Kubernetes permite entender como aplicações são executadas em ambientes distríbuidos, como escalar cargas, lidar com falhas e automatizar o ciclo de vida dos serviços. Já o GitOps, com ferramentas como o ArgoCD, permite fazer deploys de forma automatizada e segura apenas com um git push, trazendo mais controle e rastreabilidade para os times de desenvolvimento e operações. 
 
-Para este projeto, utilizarei a aplicação de exemplo **Online Boutique**, um sistema de demonstração mantido pelo **Google Cloud**, amplamente usado para estudos de Kubernetes e microserviços.  
-
-A aplicação é composta por diversos microserviços que simulam uma loja virtual completa, sendo um ótimo exemplo prático para observar como o Kubernetes gerencia aplicações distribuídas.  
+Para este projeto, utilizarei a aplicação de exemplo **Online Boutique**, um sistema de demonstração mantido pelo **Google Cloud**, amplamente usado para estudos de Kubernetes e microserviços. A aplicação é composta por diversos microserviços que simulam uma loja virtual completa, sendo um ótimo exemplo prático para observar como o Kubernetes gerencia aplicações distribuídas.  
 
 Neste cenário, a **fonte da verdade** para a implantação será um **repositório GitOps**, onde estão todos os **manifestos Kubernetes** necessários para que o ArgoCD realize o deploy e mantenha o estado do cluster sempre sincronizado com o que está versionado no Git.
 
@@ -317,6 +315,7 @@ Após obter a senha, utilize as credenciais abaixo para entrar na interface do A
    
 
  
+
 
 
 
