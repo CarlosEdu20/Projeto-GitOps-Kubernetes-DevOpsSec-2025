@@ -133,25 +133,36 @@ Antes de prosseguirmos com a criação do cluster, é importante entender, de fo
 O Kubernetes é o “cérebro” que gerencia aplicações em contêineres, e o cluster é a infraestrutura (as máquinas) onde tudo roda.
 Para este projeto, irei montar um cluster dentro da minha própria máquina, em um ambiente de produção, normalmente se usa os clusters disponíveis na nuvem junto ao kubernetes para orquestrá-los.
 
-## 1.5. Criando o cluster usando o k3d
-
+## 1.5. Criando um cluster usando o k3d
 Agora que já expliquei um pouco dos conceitos básicos de Kubernetes e clusters, irei criar um cluster **local** usando o **k3d**.  
 O `k3d` é uma ferramenta que facilita a execução do **k3s** (uma versão leve do Kubernetes) dentro de contêineres Docker.
 
-Execute o comando abaixo para criar um cluster chamado `gitops-cluster` com **1 servidor (control plane)** e **2 nós workers**:
 
-`k3d cluster create gitops-cluster --servers 1 --agents 2`
+#### 1.5.1. Instalação do k3d
 
-Criei 2 nós workers no cluster para simular um ambiente mais próximo da realidade e demonstrar como o Kubernetes distribui a carga de trabalho.
+Antes de criar o cluster, você precisa instalar o `k3d`. O método varia conforme o seu sistema operacional.
 
-Após a criação, verifique se o **kubectl** está conectado ao cluster usando o comando abaixo:
+* **Para Linux e macOS (via script):**
+    ```bash
+    curl -s [https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh](https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh) | bash
+    ```
 
-`kubectl cluster-info`
+* **Para Windows (via Chocolatey):**
+    ```powershell
+    choco install k3d
+    ```
 
-O mesmo deverá retornar a seguinte imagem.
 
-<img width="1446" height="134" alt="image" src="https://github.com/user-attachments/assets/66e45aa7-3ca1-43e8-8ddd-b987e132055f" />
+#### 1.5.2. Criação do Cluster Multi-Nó
 
+Agora, com o k3d instalado, execute o comando abaixo para criar um cluster chamado `gitops-cluster`. Ele terá **1 nó de controle (server)** e **2 nós de trabalho (workers)** para simular um ambiente mais próximo da realidade e demonstrar como o Kubernetes distribui a carga de trabalho.
+
+```bash
+k3d cluster create gitops-cluster --servers 1 --agents 2
+
+````
+
+#### 1.5.3. Verificação do Cluster
 Liste os nós do cluster para confirmar que temos 1 servidor de control-plane e 2 workers usando o comando:
 
 `kubectl get nodes`
@@ -160,6 +171,75 @@ A saida esperada deve ser essa:
 
 <img width="1918" height="124" alt="image" src="https://github.com/user-attachments/assets/3a97f7b4-8c12-491d-9b47-2977e63bc969" />
 
+
+
+## Etapa 2: Instalação do ArgoCD
+Antes de prosseguirmos com a instalação, é importante entender **o que é o ArgoCD** e **por que vamos utilizá-lo neste projeto**.  
+
+O **ArgoCD** é uma ferramenta **open source** voltada para **GitOps** e **Continuous Delivery (CD)** em ambientes Kubernetes.  
+O mesmo foi desenvolvido pela comunidade do projeto **Argo** e tem como principal objetivo **automatizar a implantação e o gerenciamento de aplicações em clusters Kubernetes**.
+
+Diferente de pipelines tradicionais de CI/CD, o ArgoCD segue o conceito de **GitOps**, onde o **repositório Git é a única fonte de verdade** (*single source of truth*). Isso significa que:
+
+- O estado desejado da aplicação (manifests YAML, Helm Charts ou Kustomize) fica armazenado no Git.  
+- O ArgoCD monitora continuamente esse repositório.  
+- Se houver alguma mudança (commit, merge, atualização), ele aplica automaticamente no cluster.  
+- Se o estado atual do cluster divergir do estado descrito no Git, o ArgoCD identifica essa diferença e pode **sincronizar** automaticamente ou sob demanda.
+
+### Por que usar o ArgoCD?
+- **Automatiza deploys:** reduz a necessidade de aplicar `kubectl apply` manualmente.  
+- **Observabilidade:** fornece uma interface gráfica (UI) e linha de comando para visualizar o status das aplicações.  
+- **Confiabilidade:** garante que o cluster esteja sempre em conformidade com o que está versionado no Git.  
+- **Rollback simplificado:** em caso de falha, é possível voltar para um commit anterior com facilidade.  
+- **Escalabilidade:** pode gerenciar múltiplos clusters e aplicações de forma centralizada.  
+
+No contexto deste projeto, o ArgoCD será usado para **implantar aplicações de forma declarativa e automatizada**, tornando o processo de entrega mais seguro, auditável e próximo do que acontece em ambientes de produção reais.
+
+---
+
+## 2.1. Criação do namespace do ArgoCD
+É uma boa prática antes de instalar o ArgoCD, criar seu próprio namespace para manter o cluster organizado. Isso evitar que a aplicação seja instalado tudo no namespace "default" do kubernetes. Para isso, vamos utilizar o seguinte comando:
+
+ ```
+    kubectl create namespace argocd
+ ```
+
+
+### 2.2. Instalação via Manifesto Oficial
+
+A forma mais comum de instalar o ArgoCD é aplicando um manifesto YAML que contém todos os recursos necessários (Deployments, Services, ConfigMaps, etc.) para fazer o mesmo funcionar. Para isso, vamos utilizar o seguinte comando:
+
+    ```
+    kubectl apply -n argocd -f [https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml](https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
+    ```
+
+Após executar este comando, o Kubernetes começará a baixar as imagens e a criar os pods do ArgoCD. Isso pode levar alguns minutos. Você pode acompanhar o status com o comando `kubectl get pods -n argocd`.
+
+
+### 2.3. Instalação do ArgoCD CLI (Ferramenta de Linha de Comando)
+
+ Existem duas formas de interagir com o argoCD, usando a interface ou via terminal, para interagirmos via console, precisamos instalar sua ferramenta de linha de comando (`argocd`). O método de instalação varia conforme o sistema operacional.
+
+* **Para Linux e macOS:**
+```
+    # Baixa o binário
+    curl -sSL -o argocd-linux-amd64 [https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64](https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64)
+```
+```
+    # Instala o binário
+    sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+```
+
+```
+    # Remove o arquivo baixado
+    rm argocd-linux-amd64
+```
+
+* **Para Windows (via Chocolatey):**
+O método mais simples no Windows é usar o gerenciador de pacotes Chocolatey.
+```
+    choco install argocd-cli
+```
 
 
 
@@ -175,6 +255,7 @@ A saida esperada deve ser essa:
    
 
  
+
 
 
 
