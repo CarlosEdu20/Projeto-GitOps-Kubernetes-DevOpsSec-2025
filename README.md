@@ -61,11 +61,57 @@ Rodar um cluster Kubernetes localmente consome uma quantidade significativa de r
  - **Armazenamento (Disco):** 30 GB de espaço livre para acomodar as ferramentas, as imagens dos contêineres e os dados do cluster.
 
 
-# Etapa 1: Preparação do repositório Github
-O princípio fundamental do GitOps é ter o Git como a única fonte da verdade. Por isso, o primeiro passo prático deste projeto é preparar um repositório que conterá a configuração declarativa que será implantada na aplicação.  É importante que você já possua uma conta no GitHub para seguir esta etapa.
+# Etapa 1: Preparação do repositório GitHub
 
-**1.1. Fork do repositório da aplicação**
-Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", primeiro vamos fazer um "fork" (uma cópia) do repositório oficial do Google Cloud Platform para sua conta. Este repositório contêm a aplicação de microserviços. O link oficial do projeto é esse https://github.com/GoogleCloudPlatform/microservices-demo.
+O princípio fundamental do **GitOps** é ter o **Git como a única fonte da verdade**.  
+Por isso, o primeiro passo prático deste projeto é preparar um repositório que conterá a configuração declarativa da aplicação.  
+É importante que você já possua uma conta no GitHub para seguir esta etapa.
+
+---
+
+## 1.1. Fork do repositório da aplicação
+
+Para ter acesso aos manifestos Kubernetes da aplicação **Online Boutique**, primeiro vamos fazer um **fork** (uma cópia) do repositório oficial do Google Cloud Platform para a sua conta.  
+
+🔗 Repositório oficial: [GoogleCloudPlatform/microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo)  
+
+**Passos:**
+1. Acesse o link acima.  
+2. Clique no botão **Fork** (canto superior direito).  
+3. Escolha a sua conta do GitHub como destino.  
+
+Isso criará uma cópia completa do repositório na sua conta.
+
+---
+
+## 1.2. Criação do repositório de manifestos (GitOps)
+
+Para manter o projeto organizado, vamos criar **outro repositório** que será usado pelo **ArgoCD** como fonte da verdade.  
+Nesse repositório ficarão apenas os arquivos YAML de configuração do Kubernetes.
+
+**Passos:**
+1. No GitHub, clique em **New repository**.  
+2. Nomeie como preferir (ex: `online-boutique-gitops`).  
+3. Deixe o repositório **público** para que o ArgoCD possa fazer a sicronização mais pra frente.  
+4. Crie o repositório.
+
+---
+
+## 1.3. Estrutura do repositório de manifestos
+
+Dentro do repositório recém-criado, crie a seguinte estrutura de pastas e arquivos:
+
+<img width="1213" height="180" alt="image" src="https://github.com/user-attachments/assets/2d50fec3-ffed-4349-82ef-81ef4c428548" />
+
+**Considerações:**
+
+- O arquivo pode ter outro nome, mas recomendo **`online-boutique.yaml`** para manter consistência de acordo com o documento do projeto.
+- O conteúdo desse arquivo yaml deve ser exatamente o do arquivo `release/kubernetes-manifests.yaml` presente no repositório oficial que você forkou.  
+
+
+
+
+
 
 
 
@@ -76,6 +122,7 @@ Para ter acesso aos manifestos Kubernetes da aplicação do "Online Boutique", p
    
 
  
+
 
 
 
