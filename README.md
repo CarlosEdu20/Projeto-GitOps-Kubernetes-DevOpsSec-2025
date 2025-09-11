@@ -63,7 +63,7 @@ Rodar um cluster Kubernetes localmente consome uma quantidade significativa de r
 
 # Etapa 1: Preparação do repositório GitHub
 
-O princípio fundamental do **GitOps** é ter o **Git como a única fonte da verdade**.  
+O princípio fundamental do processo de **GitOps** é ter o **Git como a única fonte da verdade**.  
 Por isso, o primeiro passo prático deste projeto é preparar um repositório que conterá a configuração declarativa da aplicação.  
 É importante que você já possua uma conta no GitHub para seguir esta etapa.
 
@@ -87,12 +87,12 @@ Isso criará uma cópia completa do repositório na sua conta.
 ## 1.2. Criação do repositório de manifestos (GitOps)
 
 Para manter o projeto organizado, vamos criar **outro repositório** que será usado pelo **ArgoCD** como fonte da verdade.  
-Nesse repositório ficarão apenas os arquivos YAML de configuração do Kubernetes.
+Neste repositório ficarão apenas os arquivos YAML de configuração do Kubernetes.
 
 **Passos:**
 1. No GitHub, clique em **New repository**.  
 2. Nomeie como preferir (ex: `online-boutique-gitops`).  
-3. Deixe o repositório **público** para que o ArgoCD possa fazer a sicronização mais pra frente.  
+3. Deixe o repositório **público** para que o ArgoCD possa fazer a sincronização mais pra frente.  
 4. Crie o repositório.
 
 ---
@@ -103,10 +103,63 @@ Dentro do repositório recém-criado, crie a seguinte estrutura de pastas e arqu
 
 <img width="1213" height="180" alt="image" src="https://github.com/user-attachments/assets/2d50fec3-ffed-4349-82ef-81ef4c428548" />
 
+1. Clone o repositório para sua máquina local usando o `git clone`.
+2. Dentro do repositório, crie uma pasta usando o comando `mkdir k8s` e entre na mesma usando o comando `cd k8s`.
+3. Dentro da mesma, crie o arquivo yaml usando o comando `touch online-boutique.yaml`.
+
 **Considerações:**
 
 - O arquivo pode ter outro nome, mas recomendo **`online-boutique.yaml`** para manter consistência de acordo com o documento do projeto.
-- O conteúdo desse arquivo yaml deve ser exatamente o do arquivo `release/kubernetes-manifests.yaml` presente no repositório oficial que você forkou.  
+- O conteúdo desse arquivo yaml deve ser exatamente o do arquivo `release/kubernetes-manifests.yaml` presente no repositório oficial que você forkou.
+
+---
+
+## 1.4. Entendendo um pouco de Kubernetes e Clusters
+
+Antes de prosseguirmos com a criação do cluster, é importante entender, de forma simples, o que é o **Kubernetes** e qual o papel de um **cluster**.
+
+- **Kubernetes**: É uma plataforma open-source criada pelo Google usada para **orquestrar contêineres** (como os do Docker).  
+  Ele automatiza tarefas importantes, como:
+  - Implantação de aplicações.
+  - Escalonamento automático (aumentar ou reduzir instâncias conforme a demanda).
+  - Atualizações sem tempo de inatividade (rolling updates).
+  - Monitoramento e recuperação automática em caso de falhas.
+
+- **Cluster Kubernetes**: É o **conjunto de máquinas (nós)** que executam o Kubernetes.  
+  Ele é dividido em:
+  - **Control Plane (plano de controle)**: responsável por gerenciar o estado do cluster e decidir onde e como os contêineres devem rodar.  
+  - **Workers (nós de trabalho)** → onde de fato os contêineres e aplicações são executados.
+
+O Kubernetes é o “cérebro” que gerencia aplicações em contêineres, e o cluster é a infraestrutura (as máquinas) onde tudo roda.
+Para este projeto, irei montar um cluster dentro da minha própria máquina, em um ambiente de produção, normalmente se usa os clusters disponíveis na nuvem junto ao kubernetes para orquestrá-los.
+
+## 1.5. Criando o cluster usando o k3d
+
+Agora que já expliquei um pouco dos conceitos básicos de Kubernetes e clusters, irei criar um cluster **local** usando o **k3d**.  
+O `k3d` é uma ferramenta que facilita a execução do **k3s** (uma versão leve do Kubernetes) dentro de contêineres Docker.
+
+Execute o comando abaixo para criar um cluster chamado `gitops-cluster` com **1 servidor (control plane)** e **2 nós workers**:
+
+`k3d cluster create gitops-cluster --servers 1 --agents 2`
+
+Criei 2 nós workers no cluster para simular um ambiente mais próximo da realidade e demonstrar como o Kubernetes distribui a carga de trabalho.
+
+Após a criação, verifique se o **kubectl** está conectado ao cluster usando o comando abaixo:
+
+`kubectl cluster-info`
+
+O mesmo deverá retornar a seguinte imagem.
+
+<img width="1446" height="134" alt="image" src="https://github.com/user-attachments/assets/66e45aa7-3ca1-43e8-8ddd-b987e132055f" />
+
+Liste os nós do cluster para confirmar que temos 1 servidor de control-plane e 2 workers usando o comando:
+
+`kubectl get nodes`
+
+A saida esperada deve ser essa:
+
+<img width="1918" height="124" alt="image" src="https://github.com/user-attachments/assets/3a97f7b4-8c12-491d-9b47-2977e63bc969" />
+
 
 
 
@@ -122,6 +175,7 @@ Dentro do repositório recém-criado, crie a seguinte estrutura de pastas e arqu
    
 
  
+
 
 
 
