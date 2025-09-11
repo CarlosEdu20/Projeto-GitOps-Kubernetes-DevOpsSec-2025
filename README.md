@@ -198,8 +198,7 @@ No contexto deste projeto, o ArgoCD será usado para **implantar aplicações de
 ---
 
 ## 2.1. Criação do namespace do ArgoCD
-É uma boa prática antes de instalar o ArgoCD, criar seu próprio namespace para manter o cluster organizado. Isso evitar que a aplicação seja instalado tudo no namespace "default" do kubernetes. Para isso, vamos utilizar o seguinte comando:
-
+É uma boa prática antes de instalar o ArgoCD, criar seu próprio namespace para manter o cluster organizado. Isso evita que todos os componentes do ArgoCD sejam instalados no namespace "default" do Kubernetes.
  ```
     kubectl create namespace argocd
  ```
@@ -207,7 +206,7 @@ No contexto deste projeto, o ArgoCD será usado para **implantar aplicações de
 
 ### 2.2. Instalação via Manifesto Oficial
 
-A forma mais comum de instalar o ArgoCD é aplicando um manifesto YAML que contém todos os recursos necessários (Deployments, Services, ConfigMaps, etc.) para fazer o mesmo funcionar. Para isso, vamos utilizar o seguinte comando:
+A forma mais comum de instalar o ArgoCD é aplicando um manifesto YAML que contém todos os recursos necessários (Deployments, Services, ConfigMaps, etc.) para que a ferramenta funcione corretamente. Para isso, vamos utilizar o seguinte comando:
 
     ```
     kubectl apply -n argocd -f [https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml](https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
@@ -217,8 +216,7 @@ Após executar este comando, o Kubernetes começará a baixar as imagens e a cri
 
 
 ### 2.3. Instalação do ArgoCD CLI (Ferramenta de Linha de Comando)
-
- Existem duas formas de interagir com o argoCD, usando a interface ou via terminal, para interagirmos via console, precisamos instalar sua ferramenta de linha de comando (`argocd`). O método de instalação varia conforme o sistema operacional.
+Para interagir com o ArgoCD via terminal (além da interface gráfica), precisamos instalar sua ferramenta de linha de comando (argocd). O método de instalação varia conforme o sistema operacional.
 
 * **Para Linux e macOS:**
 ```
@@ -241,6 +239,70 @@ O método mais simples no Windows é usar o gerenciador de pacotes Chocolatey.
     choco install argocd-cli
 ```
 
+Após a instalação, verifique se foi bem-sucedida com o comando `argocd version --client.`
+
+---
+
+## Etapa 3: Acessar o ArgoCD localmente
+Com o ArgoCD já instalado e rodando dentro do cluster, o próximo passo é acessar sua interface gráfica através do navegador de internet. Por padrão, o ArgoCD é instalado como um serviço do tipo `ClusterIP`, o que significa que ele não é exposto diretamente para fora do cluster. Para acessá-lo a partir do nosso navegador, é necessário fazer um túnel de rede conhecido como `port-forward`.
+
+O comando `port-forward` cria uma ponte segura entre uma porta do seu computador local (`localhost`), normalmente essa porta é a 8080, e a porta do serviço do ArgoCD rodando dentro do cluster. Com isso em mente, vamos utilizar o seguinte comando:
+
+```
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+Nota: Este terminal deve permanecer aberto enquanto você quiser acessar a interface do ArgoCD.
+
+Agora vamos acessar o navegador usando o seguinte link:
+
+ **[https://localhost:8080](https://localhost:8080)**
+
+Nota: Você verá um aviso de segurança sobre um certificado inválido. Isso é normal e esperado. Clique em "Avançado" e depois em "Continuar para localhost (não seguro)" para prosseguir.
+
+## 3.1. Login na interface
+Para o primeiro acesso, o ArgoCD gera uma senha inicial. O nome de usuário é sempre `admin`. O método para obter a senha varia conforme o sistema operacional.
+
+**Para Linux e macOS (via `base64`):**
+Execute o comando abaixo para obter a senha e decodificá-la automaticamente.
+```
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+**Para Windows (via PowerShell):**
+No Windows, o comando `base64` não é nativo. Por causa disso, o processo é feito em dois passos:
+
+1. Primeiro passo, obtenha a senha codificada:
+
+```
+ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+```
+Copie a longa cadeia de caracteres que aparecerá na tela.
+
+2.  Segundo passo, decodifique a senha:
+```
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("SUA_SENHA_CODIFICADA_AQUI"))
+```
+
+Substitua `"SUA_SENHA_CODIFICADA_AQUI"` pela sequência que você copiou.
+
+Após obter a senha, utilize as credenciais abaixo para entrar na interface do ArgoCD:
+- **Username:** `admin`
+- **Password:** A senha que você acabou de decodificar.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -255,6 +317,7 @@ O método mais simples no Windows é usar o gerenciador de pacotes Chocolatey.
    
 
  
+
 
 
 
