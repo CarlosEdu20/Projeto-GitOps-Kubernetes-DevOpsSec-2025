@@ -1,16 +1,16 @@
 # GitOps na Prática: Implantando uma aplicação web com Kubernetes e ArgoCD
 
 ## Objetivo:
-No cenário atual da programação, o desenvolvimento moderno de aplicações exige demandas de entregas cada vez mais rápidas, seguras e que possam ser escaláveis. Empresas como Netflix e Nubank  utilizam plataformas como kubernetes para orquestrar centenas (ou milhares) de containers de forma eficiente, automatizada e resiliente.
-Ao mesmo tempo, surgiu a necessidade de tornar os processos de deploy mais auditáveis, previsíveis e versionados, e é nesse cenário que surge o GitOps, uma prática que usa o Git como 
-fonte de verdade para toda a infraestrutura e aplicações.
+No cenário atual da programação, o desenvolvimento moderno de aplicações exige demandas de entregas cada vez mais rápidas, seguras e que possam ser escaláveis. Empresas como Netflix e Nubank utilizam plataformas como kubernetes para orquestrar centenas (ou milhares) de containers de forma eficiente, automatizada e resiliente. Ao mesmo tempo, surgiu a necessidade de tornar os processos de deploy mais auditáveis, previsíveis e versionados, e é nesse cenário que surge o GitOps, uma prática que usa o Git como fonte de verdade para toda a infraestrutura e aplicações.
 
-Aprender Kubernetes permite entender como aplicações são executadas em ambientes distríbuidos, como escalar cargas, lidar com falhas e automatizar o ciclo de vida dos serviços. Já o GitOps, com ferramentas como o ArgoCD, permite fazer deploys de forma 
-automatizada e segura apenas com um git push, trazendo mais controle e rastreabilidade 
-para os times de desenvolvimento e operações. 
+Aprender Kubernetes permite entender como aplicações são executadas em ambientes distríbuidos, como escalar cargas, lidar com falhas e automatizar o ciclo de vida dos serviços. Já o GitOps, com ferramentas como o ArgoCD, permite fazer deploys de forma automatizada e segura apenas com um git push, trazendo mais controle e rastreabilidade para os times de desenvolvimento e operações. 
 
+Para este projeto, utilizarei a aplicação de exemplo **Online Boutique**, um sistema de demonstração mantido pelo **Google Cloud**, amplamente usado para estudos de Kubernetes e microserviços.  
 
-Para isso, utilizaremos a aplicação de exemplo **Online Boutique**, um conhecido conjunto de microserviços mantido pelo Google Cloud. A fonte da verdade para nossa implantação será um repositório GitOps contendo os manifestos Kubernetes necessários.
+A aplicação é composta por diversos microserviços que simulam uma loja virtual completa, sendo um ótimo exemplo prático para observar como o Kubernetes gerencia aplicações distribuídas.  
+
+Neste cenário, a **fonte da verdade** para a implantação será um **repositório GitOps**, onde estão todos os **manifestos Kubernetes** necessários para que o ArgoCD realize o deploy e mantenha o estado do cluster sempre sincronizado com o que está versionado no Git.
+
 
 ## Tecnologias Utilizadas:
 Para todos os sistemas operacionais:
@@ -317,6 +317,7 @@ Após obter a senha, utilize as credenciais abaixo para entrar na interface do A
    
 
  
+
 
 
 
