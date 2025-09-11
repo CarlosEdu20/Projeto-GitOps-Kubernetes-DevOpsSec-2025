@@ -105,15 +105,17 @@ Dentro do repositório recém-criado, crie a seguinte estrutura de pastas e arqu
 <img width="1213" height="180" alt="image" src="https://github.com/user-attachments/assets/2d50fec3-ffed-4349-82ef-81ef4c428548" />
 
 1. Clone o repositório para sua máquina local usando o `git clone`.
+   
 2. Dentro do repositório, crie uma pasta usando o comando `mkdir k8s` e entre na mesma usando o comando `cd k8s`.
+   
 3. Dentro da mesma, crie o arquivo yaml usando o comando `touch online-boutique.yaml`.
 
 **Considerações:**
 
 - O arquivo pode ter outro nome, mas recomendo **`online-boutique.yaml`** para manter consistência de acordo com o documento do projeto.
+  
 - O conteúdo desse arquivo yaml deve ser exatamente o do arquivo `release/kubernetes-manifests.yaml` presente no repositório oficial que você forkou.
 
----
 
 ## 1.4. Entendendo um pouco de Kubernetes e Clusters
 
@@ -129,9 +131,10 @@ Antes de prosseguirmos com a criação do cluster, é importante entender, de fo
 - **Cluster Kubernetes**: É o **conjunto de máquinas (nós)** que executam o Kubernetes.  
   Ele é dividido em:
   - **Control Plane (plano de controle)**: responsável por gerenciar o estado do cluster e decidir onde e como os contêineres devem rodar.  
-  - **Workers (nós de trabalho)** → onde de fato os contêineres e aplicações são executados.
+  - **Workers (nós de trabalho)**: onde de fato os contêineres e aplicações estão sendo executados.
 
 O Kubernetes é o “cérebro” que gerencia aplicações em contêineres, e o cluster é a infraestrutura (as máquinas) onde tudo roda.
+
 Para este projeto, irei montar um cluster dentro da minha própria máquina, em um ambiente de produção, normalmente se usa os clusters disponíveis na nuvem junto ao kubernetes para orquestrá-los.
 
 ## 1.5. Criando um cluster usando o k3d
@@ -144,12 +147,12 @@ O `k3d` é uma ferramenta que facilita a execução do **k3s** (uma versão leve
 Antes de criar o cluster, você precisa instalar o `k3d`. O método varia conforme o seu sistema operacional.
 
 * **Para Linux e macOS (via script):**
-    ```bash
-    curl -s [https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh](https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh) | bash
+    ```
+    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
     ```
 
 * **Para Windows (via Chocolatey):**
-    ```powershell
+    ```
     choco install k3d
     ```
 
@@ -158,7 +161,7 @@ Antes de criar o cluster, você precisa instalar o `k3d`. O método varia confor
 
 Agora, com o k3d instalado, execute o comando abaixo para criar um cluster chamado `gitops-cluster`. Ele terá **1 nó de controle (server)** e **2 nós de trabalho (workers)** para simular um ambiente mais próximo da realidade e demonstrar como o Kubernetes distribui a carga de trabalho.
 
-```bash
+```
 k3d cluster create gitops-cluster --servers 1 --agents 2
 
 ````
@@ -175,10 +178,9 @@ A saida esperada deve ser essa:
 
 
 ## Etapa 2: Instalação do ArgoCD
-Antes de prosseguirmos com a instalação, é importante entender **o que é o ArgoCD** e **por que vamos utilizá-lo neste projeto**.  
+Antes de prosseguirmos com a instalação, é importante entender **o que é o ArgoCD** e **porque irei utilizá-lo neste projeto**.  
 
-O **ArgoCD** é uma ferramenta **open source** voltada para **GitOps** e **Continuous Delivery (CD)** em ambientes Kubernetes.  
-O mesmo foi desenvolvido pela comunidade do projeto **Argo** e tem como principal objetivo **automatizar a implantação e o gerenciamento de aplicações em clusters Kubernetes**.
+O **ArgoCD** é uma ferramenta **open source** voltada para **GitOps** e **Continuous Delivery (CD)** em ambientes Kubernetes. O mesmo foi desenvolvido pela comunidade do projeto **Argo** e tem como principal objetivo **automatizar a implantação e o gerenciamento de aplicações em clusters Kubernetes**.
 
 Diferente de pipelines tradicionais de CI/CD, o ArgoCD segue o conceito de **GitOps**, onde o **repositório Git é a única fonte de verdade** (*single source of truth*). Isso significa que:
 
@@ -207,13 +209,18 @@ No contexto deste projeto, o ArgoCD será usado para **implantar aplicações de
 
 ### 2.2. Instalação via Manifesto Oficial
 
-A forma mais comum de instalar o ArgoCD é aplicando um manifesto YAML que contém todos os recursos necessários (Deployments, Services, ConfigMaps, etc.) para que a ferramenta funcione corretamente. Para isso, vamos utilizar o seguinte comando:
+A forma mais comum de instalar o ArgoCD é aplicando um manifesto YAML que contém todos os recursos necessários (Deployments, Services, ConfigMaps, etc.) para que a ferramenta funcione corretamente. Para isso, utilizei o seguinte comando:
 
     ```
-    kubectl apply -n argocd -f [https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml](https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml)
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
     ```
 
 Após executar este comando, o Kubernetes começará a baixar as imagens e a criar os pods do ArgoCD. Isso pode levar alguns minutos. Você pode acompanhar o status com o comando `kubectl get pods -n argocd`.
+
+Para saber se todos os pods foram criados corretamente, compare com essa imagem abaixo:
+
+<img width="1920" height="181" alt="Captura de imagem_20250911_185950" src="https://github.com/user-attachments/assets/b6c44b3a-d9e6-4455-944c-7574b504bd6c" />
 
 
 ### 2.3. Instalação do ArgoCD CLI (Ferramenta de Linha de Comando)
@@ -221,18 +228,16 @@ Para interagir com o ArgoCD via terminal (além da interface gráfica), precisam
 
 * **Para Linux e macOS:**
 ```
-    # Baixa o binário
-    curl -sSL -o argocd-linux-amd64 [https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64](https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64)
-```
-```
-    # Instala o binário
-    sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+# Baixa o binário
+curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+
 ```
 
 ```
-    # Remove o arquivo baixado
-    rm argocd-linux-amd64
+# Instala o binário
+sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 ```
+
 
 * **Para Windows (via Chocolatey):**
 O método mais simples no Windows é usar o gerenciador de pacotes Chocolatey.
@@ -240,12 +245,12 @@ O método mais simples no Windows é usar o gerenciador de pacotes Chocolatey.
     choco install argocd-cli
 ```
 
-Após a instalação, verifique se foi bem-sucedida com o comando `argocd version --client.`
+Após a instalação, verifique se foi bem-sucedida com o comando `argocd version`.
 
 ---
 
 ## Etapa 3: Acessar o ArgoCD localmente
-Com o ArgoCD já instalado e rodando dentro do cluster, o próximo passo é acessar sua interface gráfica através do navegador de internet. Por padrão, o ArgoCD é instalado como um serviço do tipo `ClusterIP`, o que significa que ele não é exposto diretamente para fora do cluster. Para acessá-lo a partir do nosso navegador, é necessário fazer um túnel de rede conhecido como `port-forward`.
+Com o ArgoCD já instalado e rodando dentro do cluster, o próximo passo é acessar sua interface gráfica através do navegador de internet. Por padrão, o ArgoCD é instalado como um serviço do tipo `ClusterIP`, o que significa que ele não é exposto diretamente para fora do cluster. Para acessá-lo a partir do navegador, é necessário fazer um túnel de rede conhecido como `port-forward`.
 
 O comando `port-forward` cria uma ponte segura entre uma porta do seu computador local (`localhost`), normalmente essa porta é a 8080, e a porta do serviço do ArgoCD rodando dentro do cluster. Com isso em mente, vamos utilizar o seguinte comando:
 
@@ -253,16 +258,21 @@ O comando `port-forward` cria uma ponte segura entre uma porta do seu computador
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 ```
 
-Nota: Este terminal deve permanecer aberto enquanto você quiser acessar a interface do ArgoCD.
+Nota: Garanta que a porta 8080 esteja livre na sua máquina.
+
+Nota: Este terminal deve permanecer aberto enquanto você estiver acessando a interface do ArgoCD.
 
 Agora vamos acessar o navegador usando o seguinte link:
 
- **[https://localhost:8080](https://localhost:8080)**
+http://localhost:8080
 
-Nota: Você verá um aviso de segurança sobre um certificado inválido. Isso é normal e esperado. Clique em "Avançado" e depois em "Continuar para localhost (não seguro)" para prosseguir.
+A interface mostrada será essa logo abaixo:
+
+<img width="1907" height="938" alt="Captura de imagem_20250911_191546" src="https://github.com/user-attachments/assets/237ec374-c423-48c6-993c-ecdbc5449789" />
+
 
 ## 3.1. Login na interface
-Para o primeiro acesso, o ArgoCD gera uma senha inicial. O nome de usuário é sempre `admin`. O método para obter a senha varia conforme o sistema operacional.
+Para o primeiro acesso, o ArgoCD gera uma senha inicial aleatoriamente, o nome de usuário é sempre `admin`. O método para obter essa senha varia conforme o sistema operacional.
 
 **Para Linux e macOS (via `base64`):**
 Execute o comando abaixo para obter a senha e decodificá-la automaticamente.
@@ -278,11 +288,14 @@ No Windows, o comando `base64` não é nativo. Por causa disso, o processo é fe
 ```
  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
 ```
+Nota: não copie a **porcetagem** no final da senha. No windows não tem esse problema.
+
 Copie a longa cadeia de caracteres que aparecerá na tela.
 
-2.  Segundo passo, decodifique a senha:
+2. Segundo passo, decodifique a senha:
 ```
 [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("SUA_SENHA_CODIFICADA_AQUI"))
+
 ```
 
 Substitua `"SUA_SENHA_CODIFICADA_AQUI"` pela sequência que você copiou.
@@ -290,6 +303,10 @@ Substitua `"SUA_SENHA_CODIFICADA_AQUI"` pela sequência que você copiou.
 Após obter a senha, utilize as credenciais abaixo para entrar na interface do ArgoCD:
 - **Username:** `admin`
 - **Password:** A senha que você acabou de decodificar.
+
+Essa será a tela principal do argoCD.
+
+<img width="1891" height="942" alt="Captura de imagem_20250911_194619" src="https://github.com/user-attachments/assets/a5401866-eb95-4885-82fa-d500b495d36d" />
 
 
 
@@ -318,6 +335,7 @@ Após obter a senha, utilize as credenciais abaixo para entrar na interface do A
    
 
  
+
 
 
 
