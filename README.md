@@ -175,9 +175,9 @@ A saida esperada deve ser essa:
 
 <img width="1918" height="124" alt="image" src="https://github.com/user-attachments/assets/3a97f7b4-8c12-491d-9b47-2977e63bc969" />
 
+---
 
-
-## Etapa 2: Instalação do ArgoCD
+# Etapa 2: Instalação do ArgoCD
 Antes de prosseguirmos com a instalação, é importante entender **o que é o ArgoCD** e **porque irei utilizá-lo neste projeto**.  
 
 O **ArgoCD** é uma ferramenta **open source** voltada para **GitOps** e **Continuous Delivery (CD)** em ambientes Kubernetes. O mesmo foi desenvolvido pela comunidade do projeto **Argo** e tem como principal objetivo **automatizar a implantação e o gerenciamento de aplicações em clusters Kubernetes**.
@@ -198,23 +198,20 @@ Diferente de pipelines tradicionais de CI/CD, o ArgoCD segue o conceito de **Git
 
 No contexto deste projeto, o ArgoCD será usado para **implantar aplicações de forma declarativa e automatizada**, tornando o processo de entrega mais seguro, auditável e próximo do que acontece em ambientes de produção reais.
 
----
 
 ## 2.1. Criação do namespace do ArgoCD
 É uma boa prática antes de instalar o ArgoCD, criar seu próprio namespace para manter o cluster organizado. Isso evita que todos os componentes do ArgoCD sejam instalados no namespace "default" do Kubernetes.
  ```
-    kubectl create namespace argocd
+ kubectl create namespace argocd
  ```
 
 
-### 2.2. Instalação via Manifesto Oficial
-
+## 2.2. Instalação via Manifesto Oficial
 A forma mais comum de instalar o ArgoCD é aplicando um manifesto YAML que contém todos os recursos necessários (Deployments, Services, ConfigMaps, etc.) para que a ferramenta funcione corretamente. Para isso, utilizei o seguinte comando:
 
-    ```
+```
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-    ```
+```
 
 Após executar este comando, o Kubernetes começará a baixar as imagens e a criar os pods do ArgoCD. Isso pode levar alguns minutos. Você pode acompanhar o status com o comando `kubectl get pods -n argocd`.
 
@@ -223,14 +220,13 @@ Para saber se todos os pods foram criados corretamente, compare com essa imagem 
 <img width="1920" height="181" alt="Captura de imagem_20250911_185950" src="https://github.com/user-attachments/assets/b6c44b3a-d9e6-4455-944c-7574b504bd6c" />
 
 
-### 2.3. Instalação do ArgoCD CLI (Ferramenta de Linha de Comando)
+## 2.3. Instalação do ArgoCD CLI (Ferramenta de Linha de Comando)
 Para interagir com o ArgoCD via terminal (além da interface gráfica), precisamos instalar sua ferramenta de linha de comando (argocd). O método de instalação varia conforme o sistema operacional.
 
 * **Para Linux e macOS:**
 ```
 # Baixa o binário
 curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-
 ```
 
 ```
@@ -242,14 +238,14 @@ sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
 * **Para Windows (via Chocolatey):**
 O método mais simples no Windows é usar o gerenciador de pacotes Chocolatey.
 ```
-    choco install argocd-cli
+choco install argocd-cli
 ```
 
-Após a instalação, verifique se foi bem-sucedida com o comando `argocd version`.
+Após a instalação, verifique se a mesma foi bem-sucedida com o comando `argocd version`.
 
 ---
 
-## Etapa 3: Acessar o ArgoCD localmente
+# Etapa 3: Acessar o ArgoCD localmente
 Com o ArgoCD já instalado e rodando dentro do cluster, o próximo passo é acessar sua interface gráfica através do navegador de internet. Por padrão, o ArgoCD é instalado como um serviço do tipo `ClusterIP`, o que significa que ele não é exposto diretamente para fora do cluster. Para acessá-lo a partir do navegador, é necessário fazer um túnel de rede conhecido como `port-forward`.
 
 O comando `port-forward` cria uma ponte segura entre uma porta do seu computador local (`localhost`), normalmente essa porta é a 8080, e a porta do serviço do ArgoCD rodando dentro do cluster. Com isso em mente, vamos utilizar o seguinte comando:
@@ -275,27 +271,29 @@ A interface mostrada será essa logo abaixo:
 Para o primeiro acesso, o ArgoCD gera uma senha inicial aleatoriamente, o nome de usuário é sempre `admin`. O método para obter essa senha varia conforme o sistema operacional.
 
 **Para Linux e macOS (via `base64`):**
+
 Execute o comando abaixo para obter a senha e decodificá-la automaticamente.
 ```
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
+**Nota:** não copie a **porcetagem** no final da senha. No windows não tem esse problema.
+
 
 **Para Windows (via PowerShell):**
+
 No Windows, o comando `base64` não é nativo. Por causa disso, o processo é feito em dois passos:
 
 1. Primeiro passo, obtenha a senha codificada:
 
 ```
- kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
 ```
-Nota: não copie a **porcetagem** no final da senha. No windows não tem esse problema.
 
 Copie a longa cadeia de caracteres que aparecerá na tela.
 
 2. Segundo passo, decodifique a senha:
 ```
 [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("SUA_SENHA_CODIFICADA_AQUI"))
-
 ```
 
 Substitua `"SUA_SENHA_CODIFICADA_AQUI"` pela sequência que você copiou.
@@ -424,6 +422,7 @@ Se aparecer a tela principal da aplicação, significa que todo o processo foi b
    
 
  
+
 
 
 
