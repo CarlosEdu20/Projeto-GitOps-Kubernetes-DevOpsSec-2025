@@ -377,10 +377,9 @@ http://localhost:8080
 
 <img width="1893" height="925" alt="image" src="https://github.com/user-attachments/assets/46050dc0-5d61-4c48-8d0b-5adc4f1a8801" />
 
-Se aparecer a tela principal da aplicação, significa que todo o processo foi bem sucedido.
+Se aparecer a tela principal da aplicação, significa que todo o processo foi bem sucedido. Com isso, finalizamos a configuração do fluxo **GitOps com ArgoCD** utilizando a aplicação **Online Boutique**.  
 
-## 5.4. Aumentando o número de replica para 3
-Caso queira fazer um teste para saber se o ArgoCD está realmente fazendo as mudanças na aplicação, vamos aumentar 
+
 
 
 
@@ -426,6 +425,7 @@ Caso queira fazer um teste para saber se o ArgoCD está realmente fazendo as mud
    
 
  
+
 
 
 
