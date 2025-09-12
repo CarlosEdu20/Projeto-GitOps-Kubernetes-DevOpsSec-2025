@@ -24,7 +24,7 @@ Neste cenário, a **fonte da verdade** para a implantação será um **repositó
   - WSL2
   - Chocolatey
 
-## Pré-requisitos
+## Pré-requisitos:
 Antes de começar a seguir as etapas, garanta que você possua todas essas ferramentas instaladas.
 
 **Para todos os sistemas:**
@@ -424,6 +424,7 @@ Se aparecer a tela principal da aplicação, significa que todo o processo foi b
    
 
  
+
 
 
 
