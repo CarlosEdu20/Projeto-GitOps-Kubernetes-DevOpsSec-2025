@@ -10,7 +10,7 @@ Para este projeto, utilizarei a aplicação de exemplo **Online Boutique**, um s
 Neste cenário, a **fonte da verdade** para a implantação será um **repositório GitOps**, onde estão todos os **manifestos Kubernetes** necessários para que o ArgoCD realize o deploy e mantenha o estado do cluster sempre sincronizado com o que está versionado no Git.
 
 
-**## Tecnologias Utilizadas:**
+**Tecnologias Utilizadas:**
 Para todos os sistemas operacionais:
   - Kubernetes
   - ArgoCD
@@ -424,6 +424,7 @@ Se aparecer a tela principal da aplicação, significa que todo o processo foi b
    
 
  
+
 
 
 
