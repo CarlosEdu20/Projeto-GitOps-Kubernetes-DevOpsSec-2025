@@ -309,6 +309,36 @@ Essa será a tela principal do argoCD.
 <img width="1891" height="942" alt="Captura de imagem_20250911_194619" src="https://github.com/user-attachments/assets/a5401866-eb95-4885-82fa-d500b495d36d" />
 
 
+## Etapa 4: Criação da Aplicação no ArgoCD
+Com o argoCD instalado e configurado, chegamos à etapa principal deste projeto, vamos criar a "Aplicação" que conecta nosso repositório Git ao nosso cluster Kubernetes. Uma "Aplicação" no ArgoCD é um recurso que define de onde vêm os manifestos (o repositório Git) e onde eles devem ser aplicados (o cluster e o namespace de destino).
+
+**Acesse a interface do ArgoCD** e, na página principal, clique no botão **+ NEW APP**.
+
+### 4.1. Seção "General"
+
+<img width="1862" height="846" alt="image" src="https://github.com/user-attachments/assets/c76785b9-214e-4e67-8917-901019149cad" />
+
+**General:**
+  - **Application Name:** escolha um nome para sua aplicação, fique atento para que o mesmo siga um padrão para não haver erros na hora da criação do APP.
+  - **Project Name:** Mantenha o valor `default`.
+  - **Sync Policy:** Deixe como `Manual`. Isso nos dará mais controle no início, exigindo que a sincronização seja iniciada manualmente, em um ambiente de produção deixe `automatic`.
+
+
+### 4.2. Seção "Source" (A Fonte da Verdade)
+Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
+
+<img width="1481" height="563" alt="image" src="https://github.com/user-attachments/assets/704b7f91-86ca-4a0e-a186-561d4661a161" />
+
+**SOURCE:**
+ - **Repository URL:** Cole a URL do repositório de manifestos que você criou na Etapa 1.
+ - **Revision:** Aqui depende totalmente da sua branch, no meu caso escolhi `main`.
+
+
+
+
+
+
+
 
 
 
@@ -335,6 +365,7 @@ Essa será a tela principal do argoCD.
    
 
  
+
 
 
 
