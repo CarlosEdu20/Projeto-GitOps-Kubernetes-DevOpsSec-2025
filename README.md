@@ -380,6 +380,7 @@ http://localhost:8080
 Se aparecer a tela principal da aplicação, significa que todo o processo foi bem sucedido.
 
 ## 5.4. Aumentando o número de replica para 3
+Caso queira fazer um teste para saber se o ArgoCD está realmente fazendo as mudanças na aplicação, vamos aumentar 
 
 
 
@@ -425,6 +426,7 @@ Se aparecer a tela principal da aplicação, significa que todo o processo foi b
    
 
  
+
 
 
 
