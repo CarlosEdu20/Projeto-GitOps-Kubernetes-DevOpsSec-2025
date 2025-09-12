@@ -319,7 +319,7 @@ Com o argoCD instalado e configurado, chegamos à etapa principal deste projeto,
 <img width="1862" height="846" alt="image" src="https://github.com/user-attachments/assets/c76785b9-214e-4e67-8917-901019149cad" />
 
 **General:**
-  - **Application Name:** escolha um nome para sua aplicação, fique atento para que o mesmo siga um padrão para não haver erros na hora da criação do APP.
+  - **Application Name:** escolha um nome para sua aplicação, siga o padrão de nomenclatura do Kubernetes (letras minúsculas, números e hífens, sem espaços)
   - **Project Name:** Mantenha o valor `default`.
   - **Sync Policy:** Deixe como `Manual`. Isso nos dará mais controle no início, exigindo que a sincronização seja iniciada manualmente, em um ambiente de produção deixe `automatic`.
 
@@ -348,7 +348,46 @@ Após tudo isso, clique em "CREATE".
 
 <img width="1894" height="917" alt="image" src="https://github.com/user-attachments/assets/f770f84b-081c-4fe5-94a7-addf8852ba77" />
 
-Qaundo criar a aplicação do ArgoCD, vai aparecer essa tela, como a opção de sincronização manual foi escolhida, clique em **"SYNC"**. Logo após, o ArgoCD vai começar a subir os Pods da aplicação.
+Quando criar a aplicação do ArgoCD, vai aparecer essa tela, como a opção de sincronização manual foi escolhida, clique em **"SYNC"**. Logo após,o ArgoCD começará a criar todos os recursos (Pods, Services, etc.) no cluster.
+
+## Etapa 5: Acessar o Frontend da Aplicação
+Após a sincronização bem-sucedida do ArgoCD, a aplicação "Online Boutique" está rodando dentro do cluster Kubernetes. A etapa final é acessar sua interface web para confirmar que tudo está funcionando.
+
+### 5.1. Identificar o Serviço do Frontend
+Primeiramente, vamos listar os serviços no namespace "onlineboutique" (no meu caso) para encontrar o nome exato do serviço de frontend. Para isso, irei usar o comando:
+
+```
+kubectl get services -n <nome_do_seu_namespace>
+```
+<img width="1917" height="325" alt="image" src="https://github.com/user-attachments/assets/8b22e887-7283-49e8-8a9f-c18303e1561f" />
+
+Procure na lista pela entrada chamada `frontend-external`. É este serviço que expõe a porta da aplicação.
+
+### 5.2. Criar o Túnel com `Port-Forward`
+Nesta etapa, vamos criar a ponte entre a porta `8080` do nosso computador (`localhost`) e a porta `80` do serviço `frontend-external`, usando o comando:
+
+```
+kubectl port-forward svc/frontend-external 8080:80 -n <nome_do_seu_namespace>
+```
+
+**Observação:** Este comando utiliza a porta `8080` local. Se você ainda estiver com o terminal do `port-forward` do ArgoCD aberto (que também usa a porta 8080), você precisa pará-lo primeiro com teclas `Ctrl + C` antes de executar este novo comando. Apenas uma porta pode ser usada por processo de cada vez.
+
+### 5.3. Acessar a Loja Online Boutique
+Com o comando de `port-forward` em execução, abra seu navegador de internet e acesse o seguinte endereço:
+
+http://localhost:8080
+
+<img width="1893" height="925" alt="image" src="https://github.com/user-attachments/assets/46050dc0-5d61-4c48-8d0b-5adc4f1a8801" />
+
+Se aparecer a tela principal da aplicação, significa que todo o processo foi bem sucedido.
+
+
+
+
+
+
+
+
 
 
 
@@ -385,6 +424,7 @@ Qaundo criar a aplicação do ArgoCD, vai aparecer essa tela, como a opção de 
    
 
  
+
 
 
 
