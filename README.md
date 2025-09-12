@@ -336,7 +336,12 @@ Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
 
 **Atenção:** Este é um ponto comum de erro. O valor deve ser o nome da pasta. que no caso do meu projeto é (`k8s`), e não o caminho para o arquivo (`k8s/online-boutique.yaml`).
 
+### 4.3. Seção "Destination" (O Destino da Implantação)
+Nesta seção, especificamos para qual cluster Kubernetes e em qual namespace a nossa aplicação deve ser implantada.
 
+<img width="1467" height="414" alt="Captura de tela 2025-09-12 091807" src="https://github.com/user-attachments/assets/16f91610-8700-46ff-9725-f1fc7d4a76c3" />
+
+- **Cluster URL:**  Este campo define o cluster de destino. Como estou rodando o argoCD localmente, irei deixar o valor padrão, se fosse na AWS (Amazon Web Services) esse valor mudaria.
 
 
 
@@ -372,6 +377,7 @@ Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
    
 
  
+
 
 
 
