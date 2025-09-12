@@ -307,12 +307,12 @@ Essa será a tela principal do argoCD.
 <img width="1891" height="942" alt="Captura de imagem_20250911_194619" src="https://github.com/user-attachments/assets/a5401866-eb95-4885-82fa-d500b495d36d" />
 
 
-## Etapa 4: Criação da Aplicação no ArgoCD
+# Etapa 4: Criação da Aplicação no ArgoCD
 Com o argoCD instalado e configurado, chegamos à etapa principal deste projeto, vamos criar a "Aplicação" que conecta nosso repositório Git ao nosso cluster Kubernetes. Uma "Aplicação" no ArgoCD é um recurso que define de onde vêm os manifestos (o repositório Git) e onde eles devem ser aplicados (o cluster e o namespace de destino).
 
 **Acesse a interface do ArgoCD** e, na página principal, clique no botão **+ NEW APP**.
 
-### 4.1. Seção "General"
+## 4.1. Seção "General"
 
 <img width="1862" height="846" alt="image" src="https://github.com/user-attachments/assets/c76785b9-214e-4e67-8917-901019149cad" />
 
@@ -322,7 +322,7 @@ Com o argoCD instalado e configurado, chegamos à etapa principal deste projeto,
   - **Sync Policy:** Deixe como `Manual`. Isso nos dará mais controle no início, exigindo que a sincronização seja iniciada manualmente, em um ambiente de produção deixe `automatic`.
 
 
-### 4.2. Seção "Source" (A Fonte da Verdade)
+## 4.2. Seção "Source" (A Fonte da Verdade)
 Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
 
 <img width="1481" height="563" alt="image" src="https://github.com/user-attachments/assets/704b7f91-86ca-4a0e-a186-561d4661a161" />
@@ -334,7 +334,7 @@ Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
 
 **Atenção:** Este é um ponto comum de erro. O valor deve ser o nome da pasta. que no caso do meu projeto é (`k8s`), e não o caminho para o arquivo (`k8s/online-boutique.yaml`).
 
-### 4.3. Seção "Destination" (O Destino da Implantação)
+## 4.3. Seção "Destination" (O Destino da Implantação)
 Nesta seção, especificamos para qual cluster Kubernetes e em qual namespace a nossa aplicação deve ser implantada.
 
 <img width="1467" height="414" alt="Captura de tela 2025-09-12 091807" src="https://github.com/user-attachments/assets/16f91610-8700-46ff-9725-f1fc7d4a76c3" />
@@ -348,10 +348,10 @@ Após tudo isso, clique em "CREATE".
 
 Quando criar a aplicação do ArgoCD, vai aparecer essa tela, como a opção de sincronização manual foi escolhida, clique em **"SYNC"**. Logo após,o ArgoCD começará a criar todos os recursos (Pods, Services, etc.) no cluster.
 
-## Etapa 5: Acessar o Frontend da Aplicação
+# Etapa 5: Acessar o Frontend da Aplicação
 Após a sincronização bem-sucedida do ArgoCD, a aplicação "Online Boutique" está rodando dentro do cluster Kubernetes. A etapa final é acessar sua interface web para confirmar que tudo está funcionando.
 
-### 5.1. Identificar o Serviço do Frontend
+## 5.1. Identificar o Serviço do Frontend
 Primeiramente, vamos listar os serviços no namespace "onlineboutique" (no meu caso) para encontrar o nome exato do serviço de frontend. Para isso, irei usar o comando:
 
 ```
@@ -361,7 +361,7 @@ kubectl get services -n <nome_do_seu_namespace>
 
 Procure na lista pela entrada chamada `frontend-external`. É este serviço que expõe a porta da aplicação.
 
-### 5.2. Criar o Túnel com `Port-Forward`
+## 5.2. Criar o Túnel com `Port-Forward`
 Nesta etapa, vamos criar a ponte entre a porta `8080` do nosso computador (`localhost`) e a porta `80` do serviço `frontend-external`, usando o comando:
 
 ```
@@ -370,7 +370,7 @@ kubectl port-forward svc/frontend-external 8080:80 -n <nome_do_seu_namespace>
 
 **Observação:** Este comando utiliza a porta `8080` local. Se você ainda estiver com o terminal do `port-forward` do ArgoCD aberto (que também usa a porta 8080), você precisa pará-lo primeiro com teclas `Ctrl + C` antes de executar este novo comando. Apenas uma porta pode ser usada por processo de cada vez.
 
-### 5.3. Acessar a Loja Online Boutique
+## 5.3. Acessar a Loja Online Boutique
 Com o comando de `port-forward` em execução, abra seu navegador de internet e acesse o seguinte endereço:
 
 http://localhost:8080
@@ -378,6 +378,9 @@ http://localhost:8080
 <img width="1893" height="925" alt="image" src="https://github.com/user-attachments/assets/46050dc0-5d61-4c48-8d0b-5adc4f1a8801" />
 
 Se aparecer a tela principal da aplicação, significa que todo o processo foi bem sucedido.
+
+## 5.4. Aumentando o número de replica para 3
+
 
 
 
@@ -422,6 +425,7 @@ Se aparecer a tela principal da aplicação, significa que todo o processo foi b
    
 
  
+
 
 
 
