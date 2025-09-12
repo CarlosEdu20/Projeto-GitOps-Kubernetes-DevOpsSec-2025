@@ -332,6 +332,13 @@ Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
 **SOURCE:**
  - **Repository URL:** Cole a URL do repositório de manifestos que você criou na Etapa 1.
  - **Revision:** Aqui depende totalmente da sua branch, no meu caso escolhi `main`.
+ - **Path:** Indique o caminho para a **pasta** que contém seus arquivos YAML.
+
+**Atenção:** Este é um ponto comum de erro. O valor deve ser o nome da pasta. que no caso do meu projeto é (`k8s`), e não o caminho para o arquivo (`k8s/online-boutique.yaml`).
+
+
+
+
 
 
 
@@ -365,6 +372,7 @@ Nesta seção, informamos ao ArgoCD qual repositório Git ele deve monitorar.
    
 
  
+
 
 
 
