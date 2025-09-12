@@ -1,6 +1,6 @@
 # GitOps na Prática: Implantando uma aplicação web com Kubernetes e ArgoCD
 
-## Objetivo:
+# Objetivo:
 No atual cenário de programação, o desenvolvimento moderno de aplicações exige demandas de entregas cada vez mais rápidas, seguras e que possam ser escaláveis. Empresas como Netflix e Nubank utilizam plataformas como kubernetes para orquestrar centenas (ou milhares) de containers de forma eficiente, automatizada e resiliente. Ao mesmo tempo, surgiu a necessidade de tornar os processos de deploy mais auditáveis, previsíveis e versionados, e é nesse cenário que surge o GitOps, uma prática que usa o Git como fonte de verdade para toda a infraestrutura e aplicações.
 
 Aprender Kubernetes permite entender como aplicações são executadas em ambientes distríbuidos, como escalar cargas, lidar com falhas e automatizar o ciclo de vida dos serviços. Já o GitOps, com ferramentas como o ArgoCD, permite fazer deploys de forma automatizada e segura apenas com um git push, trazendo mais controle e rastreabilidade para os times de desenvolvimento e operações. 
@@ -9,8 +9,33 @@ Para este projeto, utilizarei a aplicação de exemplo **Online Boutique**, um s
 
 Neste cenário, a **fonte da verdade** para a implantação será um **repositório GitOps**, onde estão todos os **manifestos Kubernetes** necessários para que o ArgoCD realize o deploy e mantenha o estado do cluster sempre sincronizado com o que está versionado no Git.
 
+# Sumário
 
-## Tecnologias Utilizadas:
+* [Tecnologias Utilizadas](#tecnologias-utilizadas)
+* [Pré-requisitos](#pré-requisitos)
+* [Etapa 1: Preparação do repositório GitHub](#etapa-1-preparação-do-repositório-github)
+  * [1.1. Fork do repositório da aplicação](#11-fork-do-repositório-da-aplicação)
+  * [1.2. Criação do repositório de manifestos (GitOps)](#12-criação-do-repositório-de-manifestos-gitops)
+  * [1.3. Estrutura do repositório de manifestos](#13-estrutura-do-repositório-de-manifestos)
+  * [1.4. Entendendo um pouco de Kubernetes e Clusters](#14-entendendo-um-pouco-de-kubernetes-e-clusters)
+  * [1.5. Criando um cluster usando o k3d](#15-criando-um-cluster-usando-o-k3d)
+* [Etapa 2: Instalação do ArgoCD](#etapa-2-instalação-do-argocd)
+  * [2.1. Criação do namespace do ArgoCD](#21-criação-do-namespace-do-argocd)
+  * [2.2. Instalação via Manifesto Oficial](#22-instalação-via-manifesto-oficial)
+  * [2.3. Instalação do ArgoCD CLI (Ferramenta de Linha de Comando)](#23-instalação-do-argocd-cli-ferramenta-de-linha-de-comando)
+* [Etapa 3: Acessar o ArgoCD localmente](#etapa-3-acessar-o-argocd-localmente)
+  * [3.1. Login na interface](#31-login-na-interface)
+* [Etapa 4: Criação da Aplicação no ArgoCD](#etapa-4-criação-da-aplicação-no-argocd)
+  * [4.1. Seção "General"](#41-seção-general)
+  * [4.2. Seção "Source" (A Fonte da Verdade)](#42-seção-source-a-fonte-da-verdade)
+  * [4.3. Seção "Destination" (O Destino da Implantação)](#43-seção-destination-o-destino-da-implantação)
+* [Etapa 5: Acessar o Frontend da Aplicação](#etapa-5-acessar-o-frontend-da-aplicação)
+  * [5.1. Identificar o Serviço do Frontend](#51-identificar-o-serviço-do-frontend)
+  * [5.2. Criar o Túnel com `Port-Forward`](#52-criar-o-túnel-com-port-forward)
+  * [5.3. Acessar a Loja Online Boutique](#53-acessar-a-loja-online-boutique)
+
+
+# Tecnologias Utilizadas:
 **Para todos os sistemas operacionais:**
   - Kubernetes
   - ArgoCD
@@ -24,7 +49,7 @@ Neste cenário, a **fonte da verdade** para a implantação será um **repositó
   - WSL2
   - Chocolatey
 
-## Pré-requisitos:
+# Pré-requisitos:
 Antes de começar a seguir as etapas, garanta que você possua todas essas ferramentas instaladas.
 
 **Para todos os sistemas:**
@@ -425,6 +450,7 @@ Se aparecer a tela principal da aplicação, significa que todo o processo foi b
    
 
  
+
 
 
 
