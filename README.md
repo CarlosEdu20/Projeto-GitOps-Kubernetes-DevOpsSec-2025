@@ -342,6 +342,14 @@ Nesta seção, especificamos para qual cluster Kubernetes e em qual namespace a 
 <img width="1467" height="414" alt="Captura de tela 2025-09-12 091807" src="https://github.com/user-attachments/assets/16f91610-8700-46ff-9725-f1fc7d4a76c3" />
 
 - **Cluster URL:**  Este campo define o cluster de destino. Como estou rodando o argoCD localmente, irei deixar o valor padrão, se fosse na AWS (Amazon Web Services) esse valor mudaria.
+- **Namespace:** Aqui, definimos o namespace onde todos os recursos da "Online Boutique" (pods, services, etc.) serão criados. Você pode deixar o argoCD criar o namespace ou criar pelo kubernetes.
+
+Após tudo isso, clique em "CREATE".
+
+<img width="1894" height="917" alt="image" src="https://github.com/user-attachments/assets/f770f84b-081c-4fe5-94a7-addf8852ba77" />
+
+Qaundo criar a aplicação do ArgoCD, vai aparecer essa tela, como a opção de sincronização manual foi escolhida, clique em **"SYNC"**. Logo após, o ArgoCD vai começar a subir os Pods da aplicação.
+
 
 
 
@@ -377,6 +385,7 @@ Nesta seção, especificamos para qual cluster Kubernetes e em qual namespace a 
    
 
  
+
 
 
 
